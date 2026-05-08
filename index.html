@@ -305,6 +305,18 @@
       display: none; font-size: 0.78rem; letter-spacing: 0.08em;
       color: var(--color-gold); margin-top: 16px;
     }
+    .visually-hidden {
+      position: absolute;
+      width: 1px; height: 1px;
+      padding: 0; margin: -1px;
+      overflow: hidden; clip: rect(0, 0, 0, 0);
+      white-space: nowrap; border: 0;
+    }
+    .btn-primary:disabled {
+      cursor: wait;
+      opacity: 0.55;
+      transform: none;
+    }
 
     /* ─── Footer ─── */
     footer {
@@ -967,7 +979,8 @@
   <h2 class="section-title" id="contact-heading" data-od-id="contact-title">
     Parlons<br /><em style="font-style:italic;color:var(--color-gold-light)">ensemble</em>
   </h2>
-  <form id="contact-form" novalidate>
+  <form id="contact-form" action="https://formspree.io/f/mzdojzpk" method="POST" novalidate>
+    <input type="text" name="_gotcha" class="visually-hidden" tabindex="-1" autocomplete="off" aria-hidden="true">
     <div class="form-group">
       <input type="text" id="f-name" name="name" placeholder="Votre nom" autocomplete="name" data-od-id="form-name" required/>
       <label for="f-name">Votre nom</label>
@@ -1100,21 +1113,50 @@
   }, { threshold: 0.25 }).observe(document.getElementById('reveal'));
 
   // ── Contact form ──
-  document.getElementById('contact-form').addEventListener('submit', e => {
+  document.getElementById('contact-form').addEventListener('submit', async e => {
     e.preventDefault();
-    const fd = new FormData(e.target);
+    const form = e.target;
+    const fd = new FormData(form);
     const ok = document.getElementById('form-ok');
-    if (!fd.get('name')?.trim() || !fd.get('email')?.trim() || !fd.get('message')?.trim()) {
-      ok.textContent = 'Veuillez remplir tous les champs.';
-      ok.style.color = 'var(--color-gold)';
+    const submit = form.querySelector('[type="submit"]');
+    const email = form.querySelector('[type="email"]');
+
+    if (fd.get('_gotcha')?.trim()) return;
+
+    function showFormMessage(message, isError = false) {
+      ok.textContent = message;
+      ok.style.color = isError ? '#c0392b' : 'var(--color-gold)';
       ok.style.display = 'block';
+    }
+
+    if (!fd.get('name')?.trim() || !fd.get('email')?.trim() || !fd.get('message')?.trim()) {
+      showFormMessage('Veuillez remplir tous les champs.', true);
       return;
     }
-    ok.textContent = 'Message reçu — je vous réponds dans les 24h.';
-    ok.style.color = 'var(--color-gold)';
-    ok.style.display = 'block';
-    e.target.reset();
-    setTimeout(() => { ok.style.display = 'none'; }, 6000);
+    if (!email.checkValidity()) {
+      showFormMessage('Veuillez entrer une adresse email valide.', true);
+      return;
+    }
+
+    submit.disabled = true;
+    submit.setAttribute('aria-busy', 'true');
+
+    try {
+      const res = await fetch(form.action, {
+        method: 'POST',
+        body: fd,
+        headers: { Accept: 'application/json' }
+      });
+      if (!res.ok) throw new Error('Formspree submission failed');
+      showFormMessage('Message reçu — je vous réponds dans les 24h.');
+      form.reset();
+      setTimeout(() => { ok.style.display = 'none'; }, 6000);
+    } catch (error) {
+      showFormMessage("L'envoi a échoué. Réessayez ou contactez-moi par email.", true);
+    } finally {
+      submit.disabled = false;
+      submit.removeAttribute('aria-busy');
+    }
   });
 
   // ── Smooth anchor ──
