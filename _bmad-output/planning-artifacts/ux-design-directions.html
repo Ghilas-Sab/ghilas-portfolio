@@ -1,0 +1,915 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Directions de Design — Site Vitrine Montre</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=Inter:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --color-bg:         #0a0a0a;
+    --color-bg-subtle:  #111111;
+    --color-gold:       #c9a040;
+    --color-gold-light: #e8c97a;
+    --color-cream:      #f5f0e8;
+    --color-muted:      #6b6b6b;
+    --color-border:     #1e1e1e;
+    --font-display: 'Cormorant Garamond', Georgia, serif;
+    --font-body: 'Inter', system-ui, sans-serif;
+    --ease-luxury: cubic-bezier(0.25, 0.1, 0.25, 1);
+  }
+
+  body {
+    background: #050505;
+    color: var(--color-cream);
+    font-family: var(--font-body);
+    overflow-x: hidden;
+  }
+
+  /* ─── HEADER ─── */
+  .header {
+    text-align: center;
+    padding: 80px 40px 60px;
+    border-bottom: 1px solid var(--color-border);
+  }
+  .header-label {
+    font-family: var(--font-body);
+    font-size: 0.7rem;
+    font-weight: 300;
+    letter-spacing: 0.3em;
+    color: var(--color-gold);
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+  .header h1 {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 5vw, 4rem);
+    font-weight: 300;
+    letter-spacing: 0.1em;
+    color: var(--color-cream);
+    margin-bottom: 16px;
+  }
+  .header p {
+    font-size: 0.875rem;
+    font-weight: 300;
+    color: var(--color-muted);
+    max-width: 500px;
+    margin: 0 auto;
+    line-height: 1.8;
+  }
+
+  /* ─── NAV TABS ─── */
+  .tabs {
+    display: flex;
+    justify-content: center;
+    gap: 0;
+    padding: 40px 40px 0;
+    border-bottom: 1px solid var(--color-border);
+  }
+  .tab-btn {
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    padding: 16px 40px;
+    font-family: var(--font-body);
+    font-size: 0.75rem;
+    font-weight: 300;
+    letter-spacing: 0.2em;
+    color: var(--color-muted);
+    cursor: pointer;
+    transition: all 0.3s var(--ease-luxury);
+    text-transform: uppercase;
+    margin-bottom: -1px;
+  }
+  .tab-btn:hover { color: var(--color-cream); }
+  .tab-btn.active {
+    color: var(--color-gold);
+    border-bottom-color: var(--color-gold);
+  }
+
+  /* ─── DIRECTION PANELS ─── */
+  .direction { display: none; }
+  .direction.active { display: block; }
+
+  /* ─── DIRECTION A : PURE NOIR ─── */
+  .dir-a {
+    min-height: 100vh;
+    background: #0a0a0a;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 80px 40px;
+    position: relative;
+    overflow: hidden;
+  }
+  .dir-a-nav {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 32px 64px;
+  }
+  .dir-a-logo {
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    font-weight: 300;
+    letter-spacing: 0.25em;
+    color: var(--color-cream);
+  }
+  .dir-a-nav-links {
+    display: flex;
+    gap: 48px;
+    list-style: none;
+  }
+  .dir-a-nav-links a {
+    font-family: var(--font-body);
+    font-size: 0.7rem;
+    font-weight: 300;
+    letter-spacing: 0.15em;
+    color: var(--color-muted);
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: color 0.3s;
+  }
+  .dir-a-nav-links a:hover { color: var(--color-gold); }
+
+  .dir-a-watch-container {
+    position: relative;
+    width: 420px;
+    height: 420px;
+    margin: 0 auto 48px;
+  }
+  .dir-a-label {
+    font-family: var(--font-display);
+    font-size: 0.875rem;
+    font-weight: 300;
+    letter-spacing: 0.4em;
+    color: var(--color-gold);
+    text-transform: uppercase;
+    text-align: center;
+    margin-bottom: 24px;
+  }
+  .dir-a-title {
+    font-family: var(--font-display);
+    font-size: clamp(3rem, 8vw, 7rem);
+    font-weight: 300;
+    letter-spacing: 0.05em;
+    color: var(--color-cream);
+    text-align: center;
+    line-height: 0.9;
+    margin-bottom: 40px;
+  }
+  .dir-a-scroll-hint {
+    font-family: var(--font-body);
+    font-size: 0.65rem;
+    font-weight: 300;
+    letter-spacing: 0.3em;
+    color: var(--color-muted);
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .dir-a-scroll-hint::before,
+  .dir-a-scroll-hint::after {
+    content: '';
+    width: 40px;
+    height: 1px;
+    background: var(--color-border);
+  }
+
+  /* ─── DIRECTION B : CINÉMA LUXE ─── */
+  .dir-b {
+    min-height: 100vh;
+    background: radial-gradient(ellipse 60% 60% at 50% 50%, #1a1208 0%, #0a0a0a 70%);
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    padding: 0;
+    position: relative;
+    overflow: hidden;
+  }
+  .dir-b::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 40% 40% at 50% 45%, rgba(201,160,64,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .dir-b-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 28px 64px;
+    border-bottom: 1px solid rgba(201,160,64,0.15);
+  }
+  .dir-b-logo {
+    font-family: var(--font-display);
+    font-size: 1rem;
+    font-weight: 300;
+    letter-spacing: 0.3em;
+    color: var(--color-gold);
+    text-transform: uppercase;
+  }
+  .dir-b-nav-links {
+    display: flex;
+    gap: 40px;
+    list-style: none;
+  }
+  .dir-b-nav-links a {
+    font-size: 0.7rem;
+    font-weight: 300;
+    letter-spacing: 0.15em;
+    color: var(--color-muted);
+    text-decoration: none;
+    text-transform: uppercase;
+  }
+  .dir-b-hero {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 40px;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+  }
+  .dir-b-eyebrow {
+    font-size: 0.65rem;
+    font-weight: 300;
+    letter-spacing: 0.5em;
+    color: var(--color-gold);
+    text-transform: uppercase;
+    margin-bottom: 32px;
+  }
+  .dir-b-watch-container {
+    position: relative;
+    width: 440px;
+    height: 440px;
+    margin: 0 auto 40px;
+  }
+  .dir-b-glow {
+    position: absolute;
+    inset: -30px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(201,160,64,0.15) 0%, transparent 70%);
+    animation: pulse-glow 3s ease-in-out infinite;
+  }
+  @keyframes pulse-glow {
+    0%, 100% { opacity: 0.6; transform: scale(0.95); }
+    50% { opacity: 1; transform: scale(1.05); }
+  }
+  .dir-b-title {
+    font-family: var(--font-display);
+    font-size: clamp(2.5rem, 6vw, 5.5rem);
+    font-weight: 300;
+    letter-spacing: 0.08em;
+    color: var(--color-cream);
+    line-height: 1;
+    margin-bottom: 16px;
+  }
+  .dir-b-subtitle {
+    font-size: 0.75rem;
+    font-weight: 300;
+    letter-spacing: 0.2em;
+    color: var(--color-muted);
+    text-transform: uppercase;
+    margin-bottom: 48px;
+  }
+  .dir-b-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 36px;
+    border: 1px solid rgba(201,160,64,0.4);
+    font-size: 0.7rem;
+    font-weight: 300;
+    letter-spacing: 0.25em;
+    color: var(--color-gold);
+    text-transform: uppercase;
+    cursor: pointer;
+    background: none;
+    transition: all 0.4s var(--ease-luxury);
+  }
+  .dir-b-cta:hover {
+    background: rgba(201,160,64,0.08);
+    border-color: var(--color-gold);
+  }
+  .dir-b-bottom {
+    padding: 28px 64px;
+    border-top: 1px solid rgba(201,160,64,0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .dir-b-scroll {
+    font-size: 0.65rem;
+    font-weight: 300;
+    letter-spacing: 0.25em;
+    color: var(--color-muted);
+    text-transform: uppercase;
+  }
+  .dir-b-steps {
+    display: flex;
+    gap: 8px;
+  }
+  .dir-b-step {
+    width: 24px;
+    height: 1px;
+    background: var(--color-border);
+  }
+  .dir-b-step.active { background: var(--color-gold); }
+
+  /* ─── DIRECTION C : ÉDITORIAL ─── */
+  .dir-c {
+    min-height: 100vh;
+    background: #0a0a0a;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto 1fr;
+  }
+  .dir-c-nav {
+    grid-column: 1 / -1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 24px 64px;
+    border-bottom: 1px solid var(--color-border);
+  }
+  .dir-c-logo {
+    font-family: var(--font-display);
+    font-size: 0.9rem;
+    font-weight: 300;
+    letter-spacing: 0.35em;
+    color: var(--color-cream);
+    text-transform: uppercase;
+  }
+  .dir-c-nav-right {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+  }
+  .dir-c-nav-links {
+    display: flex;
+    gap: 36px;
+    list-style: none;
+  }
+  .dir-c-nav-links a {
+    font-size: 0.65rem;
+    font-weight: 300;
+    letter-spacing: 0.15em;
+    color: var(--color-muted);
+    text-decoration: none;
+    text-transform: uppercase;
+  }
+  .dir-c-contact {
+    padding: 10px 24px;
+    border: 1px solid var(--color-border);
+    font-size: 0.65rem;
+    font-weight: 300;
+    letter-spacing: 0.2em;
+    color: var(--color-cream);
+    text-transform: uppercase;
+    background: none;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+  .dir-c-contact:hover {
+    border-color: var(--color-gold);
+    color: var(--color-gold);
+  }
+  .dir-c-left {
+    border-right: 1px solid var(--color-border);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 80px 64px;
+    gap: 32px;
+  }
+  .dir-c-number {
+    font-family: var(--font-display);
+    font-size: 8rem;
+    font-weight: 300;
+    color: var(--color-border);
+    line-height: 1;
+    user-select: none;
+  }
+  .dir-c-step-label {
+    font-size: 0.65rem;
+    font-weight: 300;
+    letter-spacing: 0.4em;
+    color: var(--color-gold);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .dir-c-step-title {
+    font-family: var(--font-display);
+    font-size: 3.5rem;
+    font-weight: 300;
+    letter-spacing: 0.05em;
+    color: var(--color-cream);
+    line-height: 1.1;
+    margin-bottom: 24px;
+  }
+  .dir-c-step-desc {
+    font-size: 0.8rem;
+    font-weight: 300;
+    color: var(--color-muted);
+    line-height: 1.9;
+    max-width: 360px;
+  }
+  .dir-c-progress {
+    display: flex;
+    gap: 6px;
+    margin-top: 48px;
+  }
+  .dir-c-prog-item {
+    height: 1px;
+    flex: 1;
+    background: var(--color-border);
+    transition: background 0.3s;
+  }
+  .dir-c-prog-item.done { background: var(--color-gold); }
+  .dir-c-right {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 80px 64px;
+    position: relative;
+  }
+  .dir-c-watch-container {
+    width: 380px;
+    height: 380px;
+    position: relative;
+  }
+
+  /* ─── WATCH SVG SHARED ─── */
+  .watch-svg {
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+  }
+
+  /* ─── DESCRIPTION CARDS ─── */
+  .direction-desc {
+    background: var(--color-bg-subtle);
+    border-top: 1px solid var(--color-border);
+    padding: 48px 64px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 48px;
+  }
+  .desc-item h3 {
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    font-weight: 300;
+    letter-spacing: 0.1em;
+    color: var(--color-gold);
+    margin-bottom: 12px;
+  }
+  .desc-item p {
+    font-size: 0.78rem;
+    font-weight: 300;
+    color: var(--color-muted);
+    line-height: 1.8;
+  }
+  .desc-badge {
+    display: inline-block;
+    font-size: 0.6rem;
+    font-weight: 300;
+    letter-spacing: 0.2em;
+    color: var(--color-bg);
+    background: var(--color-gold);
+    padding: 4px 10px;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+  }
+
+  /* ─── COMPARISON NOTE ─── */
+  .comparison {
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    margin: 48px 64px;
+    padding: 40px 48px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px;
+  }
+  .comp-col h4 {
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    font-weight: 300;
+    color: var(--color-cream);
+    margin-bottom: 4px;
+    letter-spacing: 0.08em;
+  }
+  .comp-col .comp-tag {
+    font-size: 0.65rem;
+    font-weight: 300;
+    letter-spacing: 0.2em;
+    color: var(--color-gold);
+    text-transform: uppercase;
+    margin-bottom: 16px;
+    display: block;
+  }
+  .comp-col ul {
+    list-style: none;
+  }
+  .comp-col ul li {
+    font-size: 0.78rem;
+    font-weight: 300;
+    color: var(--color-muted);
+    line-height: 1.9;
+    padding-left: 16px;
+    position: relative;
+  }
+  .comp-col ul li::before {
+    content: '—';
+    position: absolute;
+    left: 0;
+    color: var(--color-border);
+  }
+  .comp-header {
+    grid-column: 1 / -1;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--color-border);
+    margin-bottom: 8px;
+  }
+  .comp-header p {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    font-weight: 300;
+    letter-spacing: 0.1em;
+    color: var(--color-cream);
+  }
+  .comp-header span {
+    font-size: 0.7rem;
+    font-weight: 300;
+    letter-spacing: 0.2em;
+    color: var(--color-muted);
+    text-transform: uppercase;
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-label">UX Design — Directions Visuelles</div>
+  <h1>Trois directions pour votre site vitrine</h1>
+  <p>Explorez chaque direction, observez les nuances. Vous pouvez choisir l'une d'elles ou combiner des éléments de plusieurs.</p>
+</div>
+
+<div class="tabs">
+  <button class="tab-btn active" onclick="showDir('a', this)">A — Pure Noir</button>
+  <button class="tab-btn" onclick="showDir('b', this)">B — Cinéma Luxe</button>
+  <button class="tab-btn" onclick="showDir('c', this)">C — Éditorial</button>
+</div>
+
+<!-- ═══════════════════════════════════════ DIRECTION A ═══ -->
+<div class="direction active" id="dir-a">
+  <div class="dir-a">
+    <nav class="dir-a-nav">
+      <div class="dir-a-logo">Ghilas</div>
+      <ul class="dir-a-nav-links">
+        <li><a href="#">À propos</a></li>
+        <li><a href="#">Projets</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+    </nav>
+
+    <div class="dir-a-label">Web Artisan</div>
+
+    <div class="dir-a-watch-container">
+      <svg class="watch-svg" viewBox="0 0 420 420" fill="none">
+        <!-- Fond / Shadow -->
+        <circle cx="210" cy="210" r="170" fill="rgba(0,0,0,0.6)"/>
+        <!-- Boîtier extérieur -->
+        <circle cx="210" cy="210" r="165" fill="none" stroke="#c9a040" stroke-width="1.5" opacity="0.4"/>
+        <circle cx="210" cy="210" r="158" fill="#141414"/>
+        <circle cx="210" cy="210" r="158" fill="none" stroke="#c9a040" stroke-width="0.5" opacity="0.3"/>
+        <!-- Lunette / bezel texture -->
+        <circle cx="210" cy="210" r="150" fill="#1a1a1a"/>
+        <!-- Cadran -->
+        <circle cx="210" cy="210" r="138" fill="#0e0e0e"/>
+        <circle cx="210" cy="210" r="138" fill="none" stroke="#c9a040" stroke-width="0.5" opacity="0.5"/>
+        <!-- Index heures -->
+        <g stroke="#c9a040" stroke-width="1.5" opacity="0.9">
+          <line x1="210" y1="82" x2="210" y2="96"/>
+          <line x1="271" y1="97" x2="265" y2="109"/>
+          <line x1="318" y1="149" x2="308" y2="155"/>
+          <line x1="338" y1="210" x2="324" y2="210"/>
+          <line x1="318" y1="271" x2="308" y2="265"/>
+          <line x1="271" y1="323" x2="265" y2="311"/>
+          <line x1="210" y1="338" x2="210" y2="324"/>
+          <line x1="149" y1="323" x2="155" y2="311"/>
+          <line x1="102" y1="271" x2="112" y2="265"/>
+          <line x1="82" y1="210" x2="96" y2="210"/>
+          <line x1="102" y1="149" x2="112" y2="155"/>
+          <line x1="149" y1="97" x2="155" y2="109"/>
+        </g>
+        <!-- Index minutes (petits) -->
+        <g stroke="#c9a040" stroke-width="0.8" opacity="0.4">
+          <line x1="210" y1="82" x2="210" y2="90" transform="rotate(6 210 210)"/>
+          <line x1="210" y1="82" x2="210" y2="90" transform="rotate(12 210 210)"/>
+          <line x1="210" y1="82" x2="210" y2="90" transform="rotate(18 210 210)"/>
+          <line x1="210" y1="82" x2="210" y2="90" transform="rotate(24 210 210)"/>
+          <line x1="210" y1="82" x2="210" y2="90" transform="rotate(36 210 210)"/>
+          <line x1="210" y1="82" x2="210" y2="90" transform="rotate(42 210 210)"/>
+          <line x1="210" y1="82" x2="210" y2="90" transform="rotate(48 210 210)"/>
+          <line x1="210" y1="82" x2="210" y2="90" transform="rotate(54 210 210)"/>
+          <line x1="210" y1="82" x2="210" y2="90" transform="rotate(66 210 210)"/>
+          <line x1="210" y1="82" x2="210" y2="90" transform="rotate(72 210 210)"/>
+          <line x1="210" y1="82" x2="210" y2="90" transform="rotate(78 210 210)"/>
+          <line x1="210" y1="82" x2="210" y2="90" transform="rotate(84 210 210)"/>
+        </g>
+        <!-- Aiguille heures -->
+        <line x1="210" y1="210" x2="210" y2="142" stroke="#e8c97a" stroke-width="3" stroke-linecap="round"/>
+        <!-- Aiguille minutes -->
+        <line x1="210" y1="210" x2="248" y2="104" stroke="#e8c97a" stroke-width="2" stroke-linecap="round"/>
+        <!-- Aiguille secondes -->
+        <line x1="210" y1="210" x2="170" y2="302" stroke="#c9a040" stroke-width="1" stroke-linecap="round"/>
+        <line x1="210" y1="210" x2="222" y2="176" stroke="#c9a040" stroke-width="1" stroke-linecap="round"/>
+        <!-- Centre -->
+        <circle cx="210" cy="210" r="4" fill="#c9a040"/>
+        <circle cx="210" cy="210" r="2" fill="#0a0a0a"/>
+        <!-- Couronne -->
+        <rect x="368" y="204" width="14" height="12" rx="3" fill="#1e1e1e" stroke="#c9a040" stroke-width="0.8" opacity="0.7"/>
+        <!-- Reflet -->
+        <ellipse cx="175" cy="165" rx="30" ry="12" fill="white" opacity="0.03" transform="rotate(-30 175 165)"/>
+      </svg>
+    </div>
+
+    <div class="dir-a-title">l'artisan<br>du web</div>
+    <div class="dir-a-scroll-hint">Scroll pour découvrir</div>
+  </div>
+
+  <div class="direction-desc">
+    <div class="desc-item">
+      <div class="desc-badge">Ambiance</div>
+      <h3>Pure Noir</h3>
+      <p>Maximum de silence. Rien ne distrait la montre. Le fond noir absorbe tout, la montre flotte dans l'espace comme un objet de musée. Typographie ultra-discrète, presque absente.</p>
+    </div>
+    <div class="desc-item">
+      <div class="desc-badge">Points forts</div>
+      <h3>Pourquoi ça marche</h3>
+      <p>L'œil va directement sur la montre. Aucune compétition visuelle. L'effet "luxe" est immédiat. Facile à maintenir sur mobile. Chaque élément qui s'ajoute ressort encore plus fort sur ce fond vide.</p>
+    </div>
+    <div class="desc-item">
+      <div class="desc-badge">Personnalité</div>
+      <h3>Message implicite</h3>
+      <p>"Je n'ai pas besoin de m'afficher — mon travail parle." Confiance absolue. Position premium. Convient à des clients qui cherchent quelqu'un de sobre et précis, pas quelqu'un qui en fait trop.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════ DIRECTION B ═══ -->
+<div class="direction" id="dir-b">
+  <div class="dir-b">
+    <nav class="dir-b-nav">
+      <div class="dir-b-logo">Ghilas</div>
+      <ul class="dir-b-nav-links">
+        <li><a href="#">Savoir-faire</a></li>
+        <li><a href="#">Projets</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+    </nav>
+
+    <div class="dir-b-hero">
+      <div class="dir-b-eyebrow">Web Design & Développement</div>
+
+      <div class="dir-b-watch-container">
+        <div class="dir-b-glow"></div>
+        <svg class="watch-svg" viewBox="0 0 440 440" fill="none">
+          <!-- Glow interne -->
+          <circle cx="220" cy="220" r="175" fill="url(#goldGlow)"/>
+          <defs>
+            <radialGradient id="goldGlow" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#c9a040" stop-opacity="0.12"/>
+              <stop offset="100%" stop-color="#c9a040" stop-opacity="0"/>
+            </radialGradient>
+          </defs>
+          <!-- Boîtier -->
+          <circle cx="220" cy="220" r="168" fill="none" stroke="#c9a040" stroke-width="2" opacity="0.6"/>
+          <circle cx="220" cy="220" r="162" fill="#141414"/>
+          <!-- Lunette striée -->
+          <circle cx="220" cy="220" r="155" fill="#181818"/>
+          <circle cx="220" cy="220" r="144" fill="#0e0e0e"/>
+          <circle cx="220" cy="220" r="144" fill="none" stroke="#c9a040" stroke-width="0.8" opacity="0.6"/>
+          <!-- Index -->
+          <g stroke="#e8c97a" stroke-width="2" opacity="0.95">
+            <line x1="220" y1="90" x2="220" y2="107"/>
+            <line x1="284" y1="106" x2="276" y2="120"/>
+            <line x1="334" y1="156" x2="322" y2="164"/>
+            <line x1="350" y1="220" x2="333" y2="220"/>
+            <line x1="334" y1="284" x2="322" y2="276"/>
+            <line x1="284" y1="334" x2="276" y2="320"/>
+            <line x1="220" y1="350" x2="220" y2="333"/>
+            <line x1="156" y1="334" x2="164" y2="320"/>
+            <line x1="106" y1="284" x2="118" y2="276"/>
+            <line x1="90" y1="220" x2="107" y2="220"/>
+            <line x1="106" y1="156" x2="118" y2="164"/>
+            <line x1="156" y1="106" x2="164" y2="120"/>
+          </g>
+          <!-- Aiguilles -->
+          <line x1="220" y1="220" x2="220" y2="148" stroke="#e8c97a" stroke-width="3.5" stroke-linecap="round"/>
+          <line x1="220" y1="220" x2="262" y2="108" stroke="#e8c97a" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="220" y1="220" x2="178" y2="315" stroke="#c9a040" stroke-width="1.2" stroke-linecap="round"/>
+          <line x1="220" y1="220" x2="234" y2="182" stroke="#c9a040" stroke-width="1.2" stroke-linecap="round"/>
+          <circle cx="220" cy="220" r="5" fill="#c9a040"/>
+          <circle cx="220" cy="220" r="2.5" fill="#0a0a0a"/>
+          <!-- Bracelet top -->
+          <rect x="198" y="50" width="44" height="42" rx="4" fill="#1a1a1a" stroke="#c9a040" stroke-width="0.8" opacity="0.7"/>
+          <rect x="202" y="54" width="36" height="4" rx="2" fill="#c9a040" opacity="0.3"/>
+          <rect x="202" y="62" width="36" height="4" rx="2" fill="#c9a040" opacity="0.3"/>
+          <rect x="202" y="70" width="36" height="4" rx="2" fill="#c9a040" opacity="0.3"/>
+          <!-- Bracelet bottom -->
+          <rect x="198" y="348" width="44" height="42" rx="4" fill="#1a1a1a" stroke="#c9a040" stroke-width="0.8" opacity="0.7"/>
+          <rect x="202" y="352" width="36" height="4" rx="2" fill="#c9a040" opacity="0.3"/>
+          <rect x="202" y="360" width="36" height="4" rx="2" fill="#c9a040" opacity="0.3"/>
+          <rect x="202" y="368" width="36" height="4" rx="2" fill="#c9a040" opacity="0.3"/>
+          <!-- Couronne -->
+          <rect x="378" y="214" width="16" height="12" rx="3" fill="#1e1e1e" stroke="#c9a040" stroke-width="1"/>
+          <!-- Reflet prononcé -->
+          <ellipse cx="185" cy="175" rx="35" ry="14" fill="white" opacity="0.05" transform="rotate(-35 185 175)"/>
+        </svg>
+      </div>
+
+      <div class="dir-b-title">L'artisan du web</div>
+      <div class="dir-b-subtitle">Precision. Craft. Excellence.</div>
+      <button class="dir-b-cta">Découvrir le savoir-faire ↓</button>
+    </div>
+
+    <div class="dir-b-bottom">
+      <span class="dir-b-scroll">Scroll pour assembler</span>
+      <div class="dir-b-steps">
+        <div class="dir-b-step active"></div>
+        <div class="dir-b-step"></div>
+        <div class="dir-b-step"></div>
+        <div class="dir-b-step"></div>
+        <div class="dir-b-step"></div>
+        <div class="dir-b-step"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="direction-desc">
+    <div class="desc-item">
+      <div class="desc-badge">Ambiance</div>
+      <h3>Cinéma Luxe</h3>
+      <p>Un halo doré irradie depuis le centre. La montre est enveloppée de lumière chaude. L'atmosphère est dramatique, presque théâtrale. Le fond noir n'est plus vide — il est vivant.</p>
+    </div>
+    <div class="desc-item">
+      <div class="desc-badge">Points forts</div>
+      <h3>Pourquoi ça marche</h3>
+      <p>Le glow pulsant autour de la montre crée une impression de chaleur et de vie. Plus émotionnel que la direction A. Le CTA visible immédiatement donne une invitation claire à l'action.</p>
+    </div>
+    <div class="desc-item">
+      <div class="desc-badge">Personnalité</div>
+      <h3>Message implicite</h3>
+      <p>"Je crée des expériences qui réchauffent." Plus accessible, plus accueillant que le pur minimalisme. Convient à des clients qui veulent quelque chose de premium mais avec de la chaleur humaine.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════ DIRECTION C ═══ -->
+<div class="direction" id="dir-c">
+  <div class="dir-c">
+    <nav class="dir-c-nav">
+      <div class="dir-c-logo">Ghilas</div>
+      <div class="dir-c-nav-right">
+        <ul class="dir-c-nav-links">
+          <li><a href="#">Manifeste</a></li>
+          <li><a href="#">Travaux</a></li>
+        </ul>
+        <button class="dir-c-contact">Parlons</button>
+      </div>
+    </nav>
+
+    <div class="dir-c-left">
+      <div class="dir-c-number">03</div>
+      <div>
+        <div class="dir-c-step-label">Étape 03 / 06 — Cadran</div>
+        <div class="dir-c-step-title">Clarté<br>&amp; précision</div>
+        <p class="dir-c-step-desc">Chaque interface que je conçois est lisible au premier coup d'œil. Pas d'information cachée, pas d'ambiguïté. L'utilisateur sait toujours où il est et où aller.</p>
+      </div>
+      <div class="dir-c-progress">
+        <div class="dir-c-prog-item done"></div>
+        <div class="dir-c-prog-item done"></div>
+        <div class="dir-c-prog-item done"></div>
+        <div class="dir-c-prog-item"></div>
+        <div class="dir-c-prog-item"></div>
+        <div class="dir-c-prog-item"></div>
+      </div>
+    </div>
+
+    <div class="dir-c-right">
+      <div class="dir-c-watch-container">
+        <svg class="watch-svg" viewBox="0 0 380 380" fill="none">
+          <circle cx="190" cy="190" r="148" fill="#141414"/>
+          <circle cx="190" cy="190" r="148" fill="none" stroke="#c9a040" stroke-width="1.5" opacity="0.5"/>
+          <circle cx="190" cy="190" r="138" fill="#1a1a1a"/>
+          <circle cx="190" cy="190" r="125" fill="#0e0e0e"/>
+          <circle cx="190" cy="190" r="125" fill="none" stroke="#c9a040" stroke-width="0.6" opacity="0.5"/>
+          <!-- Index -->
+          <g stroke="#c9a040" stroke-width="1.8" opacity="0.9">
+            <line x1="190" y1="76" x2="190" y2="90"/>
+            <line x1="246" y1="90" x2="239" y2="103"/>
+            <line x1="290" y1="134" x2="280" y2="141"/>
+            <line x1="304" y1="190" x2="290" y2="190"/>
+            <line x1="290" y1="246" x2="280" y2="239"/>
+            <line x1="246" y1="290" x2="239" y2="277"/>
+            <line x1="190" y1="304" x2="190" y2="290"/>
+            <line x1="134" y1="290" x2="141" y2="277"/>
+            <line x1="90" y1="246" x2="100" y2="239"/>
+            <line x1="76" y1="190" x2="90" y2="190"/>
+            <line x1="90" y1="134" x2="100" y2="141"/>
+            <line x1="134" y1="90" x2="141" y2="103"/>
+          </g>
+          <!-- Aiguilles -->
+          <line x1="190" y1="190" x2="190" y2="130" stroke="#e8c97a" stroke-width="3" stroke-linecap="round"/>
+          <line x1="190" y1="190" x2="228" y2="96" stroke="#e8c97a" stroke-width="2" stroke-linecap="round"/>
+          <line x1="190" y1="190" x2="158" y2="272" stroke="#c9a040" stroke-width="1" stroke-linecap="round"/>
+          <line x1="190" y1="190" x2="202" y2="160" stroke="#c9a040" stroke-width="1" stroke-linecap="round"/>
+          <circle cx="190" cy="190" r="4.5" fill="#c9a040"/>
+          <circle cx="190" cy="190" r="2" fill="#0a0a0a"/>
+          <!-- Couronne -->
+          <rect x="340" y="184" width="14" height="12" rx="3" fill="#1e1e1e" stroke="#c9a040" stroke-width="0.8" opacity="0.7"/>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <div class="direction-desc">
+    <div class="desc-item">
+      <div class="desc-badge">Ambiance</div>
+      <h3>Éditorial Horloger</h3>
+      <p>Layout en deux colonnes : texte à gauche, montre à droite. Chaque étape d'assemblage s'accompagne d'une explication de la compétence correspondante. Plus narratif, plus conversationnel.</p>
+    </div>
+    <div class="desc-item">
+      <div class="desc-badge">Points forts</div>
+      <h3>Pourquoi ça marche</h3>
+      <p>Le grand numéro d'étape donne un sens du progrès. Le texte explicatif rassure les clients qui ont besoin de comprendre avant de faire confiance. La progression visuelle (barre de steps) ancre l'utilisateur.</p>
+    </div>
+    <div class="desc-item">
+      <div class="desc-badge">Personnalité</div>
+      <h3>Message implicite</h3>
+      <p>"Je vous explique mon approche." Plus pédagogique. Convient à des clients qui ont besoin d'être convaincus, pas juste impressionnés. Idéal si vous voulez mettre en avant votre méthode de travail.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════ COMPARAISON ═══ -->
+<div class="comparison">
+  <div class="comp-header">
+    <span>Tableau comparatif</span>
+    <p>Choisissez votre direction — ou dites-moi ce que vous aimez dans chacune.</p>
+  </div>
+  <div class="comp-col">
+    <h4>A — Pure Noir</h4>
+    <span class="comp-tag">Minimalisme extrême</span>
+    <ul>
+      <li>Silence visuel total</li>
+      <li>Montre = seul sujet</li>
+      <li>Élégance froide</li>
+      <li>Impact immédiat</li>
+      <li>Moins de texte</li>
+    </ul>
+  </div>
+  <div class="comp-col">
+    <h4>B — Cinéma Luxe</h4>
+    <span class="comp-tag">Dramatique et chaud</span>
+    <ul>
+      <li>Halo doré vivant</li>
+      <li>CTA visible dès l'entrée</li>
+      <li>Émotion + chaleur</li>
+      <li>Plus accessible</li>
+      <li>Premium accueillant</li>
+    </ul>
+  </div>
+  <div class="comp-col">
+    <h4>C — Éditorial</h4>
+    <span class="comp-tag">Narratif et pédagogique</span>
+    <ul>
+      <li>Texte + montre en duo</li>
+      <li>Progression visible</li>
+      <li>Approche expliquée</li>
+      <li>Convainc + impressionne</li>
+      <li>Plus de contenu</li>
+    </ul>
+  </div>
+</div>
+
+<script>
+function showDir(dir, btn) {
+  document.querySelectorAll('.direction').forEach(d => d.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('dir-' + dir).classList.add('active');
+  btn.classList.add('active');
+}
+</script>
+</body>
+</html>

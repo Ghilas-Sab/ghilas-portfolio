@@ -1,0 +1,1103 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title data-od-id="page-title">Ghilas — Web Artisan</title>
+  <meta name="description" content="Portfolio de Ghilas, développeur et designer web. Chaque site est une œuvre de précision." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Inter:wght@300;400&display=swap" rel="stylesheet" />
+  <style>
+    /* ─── Reset ─── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    /* ─── Tokens ─── */
+    :root {
+      --color-bg: #0a0a0a;
+      --color-bg-subtle: #111111;
+      --color-bg-card: #141414;
+      --color-gold: #c9a040;
+      --color-gold-light: #e8c97a;
+      --color-gold-dark: #8a6a20;
+      --color-cream: #f5f0e8;
+      --color-muted: #6b6b6b;
+      --color-border: #1e1e1e;
+      --font-display: 'Cormorant Garamond', Georgia, serif;
+      --font-body: 'Inter', system-ui, sans-serif;
+      --space-1: 8px; --space-2: 16px; --space-4: 32px;
+      --space-8: 64px; --space-16: 128px;
+      --ease-luxury: cubic-bezier(0.25, 0.1, 0.25, 1);
+      --duration-slow: 800ms;
+      --duration-medium: 400ms;
+    }
+
+    /* ─── Scrollbar ─── */
+    ::-webkit-scrollbar { width: 2px; }
+    ::-webkit-scrollbar-thumb { background: var(--color-gold); }
+    ::-webkit-scrollbar-track { background: var(--color-bg); }
+
+    body {
+      background: var(--color-bg);
+      color: var(--color-cream);
+      font-family: var(--font-body);
+      font-weight: 300;
+      font-size: 0.85rem;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ─── NavBar ─── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 22px 64px;
+      transition: background 400ms var(--ease-luxury), backdrop-filter 400ms var(--ease-luxury), border-color 400ms var(--ease-luxury);
+      border-bottom: 1px solid transparent;
+    }
+    nav.scrolled {
+      background: rgba(10,10,10,0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-color: var(--color-border);
+    }
+    .nav-logo {
+      font-family: var(--font-display); font-weight: 300;
+      font-size: 1.35rem; letter-spacing: 0.18em;
+      color: var(--color-cream); text-decoration: none;
+    }
+    .nav-links { display: flex; align-items: center; gap: 48px; list-style: none; }
+    .nav-links a {
+      font-size: 0.68rem; font-weight: 400; letter-spacing: 0.18em;
+      text-transform: uppercase; color: var(--color-muted); text-decoration: none;
+      transition: color 300ms var(--ease-luxury);
+    }
+    .nav-links a:hover { color: var(--color-cream); }
+    .nav-cta {
+      font-size: 0.68rem; font-weight: 400; letter-spacing: 0.15em;
+      text-transform: uppercase; color: var(--color-gold);
+      border: 1px solid var(--color-gold); padding: 9px 22px;
+      background: transparent; cursor: pointer; text-decoration: none;
+      transition: all 300ms var(--ease-luxury);
+    }
+    .nav-cta:hover { background: rgba(201,160,64,0.08); color: var(--color-gold-light); border-color: var(--color-gold-light); }
+
+    /* ─── Hero ─── */
+    #hero {
+      min-height: 100vh; display: flex; flex-direction: column;
+      align-items: center; justify-content: center; text-align: center;
+      overflow: hidden; padding: 120px 64px 80px; position: relative;
+    }
+    .hero-ghost {
+      position: absolute; inset: 0; display: flex; align-items: center;
+      justify-content: center; opacity: 0.04; pointer-events: none;
+    }
+    .hero-ghost svg { width: clamp(220px, 45vw, 440px); }
+    .hero-content { position: relative; z-index: 1; }
+
+    @keyframes fadeUp { to { opacity:1; transform:translateY(0); } }
+    @keyframes fadeIn { to { opacity:1; } }
+
+    .hero-eyebrow {
+      font-size: 0.68rem; font-weight: 400; letter-spacing: 0.3em;
+      text-transform: uppercase; color: var(--color-gold); margin-bottom: 28px;
+      opacity: 0; transform: translateY(16px);
+      animation: fadeUp var(--duration-slow) var(--ease-luxury) 0.3s forwards;
+    }
+    .hero-title {
+      font-family: var(--font-display); font-weight: 300;
+      font-size: clamp(4rem, 8vw, 8rem); letter-spacing: 0.05em;
+      color: var(--color-cream); line-height: 1.06;
+      opacity: 0; transform: translateY(20px);
+      animation: fadeUp var(--duration-slow) var(--ease-luxury) 0.5s forwards;
+    }
+    .hero-title em { font-style: italic; color: var(--color-gold-light); }
+    .hero-sub {
+      font-family: var(--font-display); font-weight: 300;
+      font-size: clamp(0.95rem, 1.8vw, 1.3rem); letter-spacing: 0.32em;
+      color: var(--color-muted); margin-top: 28px;
+      opacity: 0; transform: translateY(14px);
+      animation: fadeUp var(--duration-slow) var(--ease-luxury) 0.7s forwards;
+    }
+    .hero-divider {
+      width: 1px; height: 56px;
+      background: linear-gradient(to bottom, var(--color-gold), transparent);
+      margin: 56px auto 0; opacity: 0;
+      animation: fadeIn var(--duration-slow) var(--ease-luxury) 1.2s forwards;
+    }
+    .scroll-hint {
+      font-size: 0.62rem; letter-spacing: 0.28em; text-transform: uppercase;
+      color: var(--color-muted); margin-top: 12px; opacity: 0;
+      animation: fadeIn var(--duration-slow) var(--ease-luxury) 1.5s forwards;
+    }
+
+    /* ─── Assembly ─── */
+    #assembly { position: relative; }
+
+    .assembly-grid {
+      display: flex; max-width: 1400px; margin: 0 auto; padding: 0 64px;
+    }
+
+    /* Watch col — right on desktop, sticky */
+    .watch-col {
+      flex: 1; order: 2;
+      position: sticky; top: 0; height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .watch-stage { position: relative; display: flex; align-items: center; justify-content: center; }
+
+    .watch-glow {
+      position: absolute;
+      width: 360px; height: 360px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(201,160,64,0.18) 0%, rgba(201,160,64,0.05) 50%, transparent 72%);
+      animation: glowPulse 3s ease-in-out infinite;
+      will-change: transform, opacity;
+    }
+    @keyframes glowPulse { 0%,100% { transform:scale(0.95); opacity:.6; } 50% { transform:scale(1.08); opacity:1; } }
+    @keyframes glowBurst { 0% { transform:scale(1); opacity:.6; } 40% { transform:scale(1.4); opacity:1; } 100% { transform:scale(1.08); opacity:.9; } }
+    .watch-glow.burst { animation: glowBurst 500ms var(--ease-luxury) forwards, glowPulse 3s ease-in-out 500ms infinite; }
+
+    #watch-svg {
+      width: 440px; position: relative; z-index: 1;
+    }
+
+    /* SVG watch parts */
+    .watch-part {
+      opacity: 0;
+      transition: opacity 700ms var(--ease-luxury);
+    }
+    .watch-part.revealed { opacity: 1; }
+
+    /* Steps col — left on desktop */
+    .steps-col { flex: 1; order: 1; padding-right: 48px; }
+
+    .progress-bar {
+      display: flex; gap: 6px;
+      position: sticky; top: 80px; z-index: 10;
+      padding-bottom: 28px;
+      background: linear-gradient(to bottom, var(--color-bg) 82%, transparent);
+    }
+    .progress-segment {
+      flex: 1; height: 1px; background: var(--color-border);
+      transition: background 500ms var(--ease-luxury);
+    }
+    .progress-segment.active { background: var(--color-gold); }
+
+    .step-block {
+      min-height: 100vh; display: flex; align-items: center;
+      padding: 100px 0;
+    }
+    .step-text { position: relative; }
+    .step-number-bg {
+      font-family: var(--font-display); font-size: 9rem; font-weight: 300;
+      color: var(--color-border); line-height: 1;
+      position: absolute; top: -2.2rem; left: -1.2rem;
+      pointer-events: none; user-select: none;
+    }
+    .step-inner {
+      position: relative; z-index: 1;
+      opacity: 0; transform: translateY(22px);
+      transition: opacity var(--duration-slow) var(--ease-luxury),
+                  transform var(--duration-slow) var(--ease-luxury);
+    }
+    .step-inner.revealed { opacity: 1; transform: translateY(0); }
+    .step-label {
+      font-size: 0.7rem; font-weight: 300; letter-spacing: 0.3em;
+      text-transform: uppercase; color: var(--color-gold); margin-bottom: 14px;
+    }
+    .step-title {
+      font-family: var(--font-display); font-weight: 300;
+      font-size: clamp(1.5rem, 3vw, 2.5rem); letter-spacing: 0.08em;
+      color: var(--color-cream); line-height: 1.2; margin-bottom: 14px;
+    }
+    .step-desc {
+      font-size: 0.84rem; font-weight: 300; color: var(--color-muted);
+      line-height: 1.75; max-width: 40ch;
+    }
+
+    /* ─── Reveal ─── */
+    #reveal {
+      min-height: 100vh; display: flex; flex-direction: column;
+      align-items: center; justify-content: center; text-align: center;
+      padding: 120px 64px; position: relative; overflow: hidden;
+    }
+    .reveal-glow {
+      position: absolute; width: 560px; height: 560px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(201,160,64,0.10) 0%, transparent 68%);
+      top: 50%; left: 50%; transform: translate(-50%,-50%);
+      pointer-events: none;
+    }
+    .reveal-content { position: relative; z-index: 1; }
+    .reveal-signature {
+      font-family: var(--font-display); font-size: clamp(2.4rem, 5vw, 5rem);
+      font-weight: 300; letter-spacing: 0.12em; color: var(--color-cream);
+      opacity: 0; transform: translateY(22px);
+      transition: opacity 1s var(--ease-luxury), transform 1s var(--ease-luxury);
+    }
+    .reveal-signature.revealed { opacity:1; transform:translateY(0); }
+    .reveal-sub {
+      font-size: 0.68rem; font-weight: 400; letter-spacing: 0.3em;
+      text-transform: uppercase; color: var(--color-gold); margin-top: 14px;
+      opacity: 0; transform: translateY(14px);
+      transition: opacity 1s var(--ease-luxury) 0.3s, transform 1s var(--ease-luxury) 0.3s;
+    }
+    .reveal-sub.revealed { opacity:1; transform:translateY(0); }
+    .reveal-cta {
+      margin-top: 56px; opacity: 0; transform: translateY(22px);
+      transition: opacity 1s var(--ease-luxury) 0.6s, transform 1s var(--ease-luxury) 0.6s;
+    }
+    .reveal-cta.revealed { opacity:1; transform:translateY(0); }
+    .btn-primary {
+      display: inline-block; font-size: 0.82rem; font-weight: 400;
+      letter-spacing: 0.15em; text-transform: uppercase; color: var(--color-gold);
+      border: 1px solid var(--color-gold); padding: 14px 40px;
+      background: transparent; cursor: pointer; text-decoration: none;
+      transition: background 400ms ease, color 400ms ease, border-color 400ms ease, transform 400ms ease;
+    }
+    .btn-primary:hover {
+      background: rgba(201,160,64,0.08); color: var(--color-gold-light);
+      border-color: var(--color-gold-light); transform: translateY(-2px);
+    }
+
+    /* ─── Contact ─── */
+    #contact { padding: 120px 64px; max-width: 720px; margin: 0 auto; }
+    .section-eyebrow {
+      font-size: 0.68rem; font-weight: 400; letter-spacing: 0.3em;
+      text-transform: uppercase; color: var(--color-gold); margin-bottom: 28px;
+    }
+    .section-title {
+      font-family: var(--font-display); font-weight: 300;
+      font-size: clamp(2rem, 4vw, 3.5rem); letter-spacing: 0.1em;
+      color: var(--color-cream); margin-bottom: 56px; line-height: 1.15;
+    }
+    .form-group { position: relative; margin-bottom: 32px; }
+    .form-group label {
+      position: absolute; top: 16px; left: 0;
+      font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--color-muted); transition: all 240ms var(--ease-luxury);
+      pointer-events: none;
+    }
+    .form-group input, .form-group textarea {
+      width: 100%; background: transparent; border: none;
+      border-bottom: 1px solid var(--color-border);
+      color: var(--color-cream); font-family: var(--font-body);
+      font-weight: 300; font-size: 0.9rem; padding: 14px 0 10px; outline: none;
+      transition: border-color 300ms var(--ease-luxury);
+    }
+    .form-group textarea { resize: none; height: 96px; }
+    .form-group input:focus, .form-group textarea:focus { border-color: var(--color-gold); }
+    .form-group input:focus + label, .form-group input:not(:placeholder-shown) + label,
+    .form-group textarea:focus + label, .form-group textarea:not(:placeholder-shown) + label {
+      top: -8px; font-size: 0.6rem; color: var(--color-gold);
+    }
+    .form-group input::placeholder, .form-group textarea::placeholder { color: transparent; }
+    .form-success {
+      display: none; font-size: 0.78rem; letter-spacing: 0.08em;
+      color: var(--color-gold); margin-top: 16px;
+    }
+
+    /* ─── Footer ─── */
+    footer {
+      border-top: 1px solid var(--color-border);
+      padding: 40px 64px;
+      max-width: 1400px; margin: 0 auto;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .footer-logo { font-family: var(--font-display); font-size: 1rem; letter-spacing: 0.2em; color: var(--color-muted); }
+    .footer-email {
+      font-size: 0.72rem; letter-spacing: 0.1em; color: var(--color-muted);
+      text-decoration: none; transition: color 300ms var(--ease-luxury);
+    }
+    .footer-email:hover { color: var(--color-gold); }
+    .footer-copy { font-size: 0.68rem; letter-spacing: 0.1em; color: var(--color-muted); }
+
+    /* ─── Responsive ─── */
+    @media (max-width: 1023px) {
+      nav { padding: 18px 32px; }
+      .nav-links { display: none; }
+      .assembly-grid { flex-direction: column; padding: 0 24px; gap: 0; }
+      .watch-col {
+        order: 1; position: sticky; top: 60px; height: auto;
+        min-height: 52vw; max-height: 380px;
+        z-index: 8; background: var(--color-bg);
+        padding: 16px 0 8px;
+      }
+      .watch-glow { width: 260px; height: 260px; }
+      #watch-svg { width: clamp(240px, 70vw, 300px); }
+      .steps-col { order: 2; padding-right: 0; }
+      .step-block { min-height: 80vh; padding: 60px 0; }
+      .progress-bar { position: static; }
+      #hero, #reveal, #contact { padding: 100px 32px 60px; }
+      footer { padding: 32px; flex-direction: column; gap: 10px; text-align: center; }
+    }
+    /* Tablet: restore 2-col layout from 768px */
+    @media (min-width: 768px) and (max-width: 1023px) {
+      .assembly-grid { flex-direction: row; padding: 0 32px; }
+      .watch-col {
+        position: sticky; top: 0; height: 100vh;
+        min-height: unset; max-height: unset;
+        background: none; order: 2;
+      }
+      #watch-svg { width: 360px; }
+      .watch-glow { width: 300px; height: 300px; }
+      .steps-col { order: 1; padding-right: 24px; }
+      .step-block { min-height: 100vh; }
+      .progress-bar { position: sticky; top: 80px; }
+    }
+    @media (max-width: 599px) {
+      nav { padding: 16px 20px; }
+      .assembly-grid { padding: 0 16px; }
+      .watch-col { top: 56px; min-height: 56vw; max-height: 300px; }
+      #watch-svg { width: clamp(240px, 70vw, 300px); }
+      #hero, #reveal, #contact { padding: 90px 20px 48px; }
+      footer { padding: 24px 20px; }
+    }
+    @media (min-width: 1440px) {
+      #watch-svg { width: 480px; }
+      .watch-glow { width: 400px; height: 400px; }
+    }
+
+    /* ─── Reduced motion ─── */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation: none !important; transition: opacity 300ms ease !important; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══ NavBar ═══ -->
+<nav id="navbar" aria-label="Navigation principale">
+  <a href="#hero" class="nav-logo" data-od-id="nav-logo">Ghilas</a>
+  <ul class="nav-links">
+    <li><a href="#assembly" data-od-id="nav-approche">Approche</a></li>
+    <li><a href="#reveal" data-od-id="nav-about">À propos</a></li>
+    <li><a href="#contact" data-od-id="nav-contact">Contact</a></li>
+  </ul>
+  <a href="#contact" class="nav-cta" data-od-id="nav-cta">Parlons</a>
+</nav>
+
+<main>
+
+<!-- ═══ Hero ═══ -->
+<section id="hero">
+  <div class="hero-ghost" aria-hidden="true">
+    <svg viewBox="0 0 300 420" fill="none">
+      <circle cx="150" cy="210" r="108" fill="#c9a040" opacity="0.6"/>
+      <circle cx="150" cy="210" r="98" fill="#0a0a0a"/>
+      <circle cx="150" cy="210" r="94" fill="#c9a040" opacity="0.4"/>
+      <circle cx="150" cy="210" r="86" fill="#0a0a0a"/>
+      <rect x="130" y="30" width="40" height="82" rx="6" fill="#c9a040" opacity="0.5"/>
+      <rect x="130" y="308" width="40" height="82" rx="6" fill="#c9a040" opacity="0.5"/>
+    </svg>
+  </div>
+  <div class="hero-content">
+    <p class="hero-eyebrow" data-od-id="hero-eyebrow">Portfolio · Design & Développement Web</p>
+    <h1 class="hero-title" data-od-id="hero-title">l'artisan<br /><em>du web</em></h1>
+    <p class="hero-sub" data-od-id="hero-sub">— Ghilas —</p>
+    <div class="hero-divider" aria-hidden="true"></div>
+    <p class="scroll-hint" data-od-id="hero-scroll">Faites défiler pour découvrir</p>
+  </div>
+</section>
+
+<!-- ═══ Assembly ═══ -->
+<section id="assembly" aria-label="Processus de création">
+  <div class="assembly-grid">
+
+    <!-- WATCH COL — first in HTML (top on mobile, right on desktop via order:2) -->
+    <div class="watch-col" aria-hidden="true">
+      <div class="watch-stage">
+        <div class="watch-glow" id="watch-glow"></div>
+
+        <!--
+          REALISTIC WATCH SVG
+          viewBox 300×420, watch center (150, 210)
+          6 parts revealed progressively via IntersectionObserver
+        -->
+        <svg id="watch-svg" viewBox="0 0 300 420" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <!-- Case: brushed dark steel -->
+            <linearGradient id="gCase" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%"   stop-color="#2e2e2e"/>
+              <stop offset="22%"  stop-color="#1a1a1a"/>
+              <stop offset="55%"  stop-color="#101010"/>
+              <stop offset="78%"  stop-color="#1d1d1d"/>
+              <stop offset="100%" stop-color="#303030"/>
+            </linearGradient>
+            <!-- Bezel: gold with facets -->
+            <linearGradient id="gBezel" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%"   stop-color="#e8c97a"/>
+              <stop offset="20%"  stop-color="#c9a040"/>
+              <stop offset="42%"  stop-color="#f2d882"/>
+              <stop offset="65%"  stop-color="#8a6a20"/>
+              <stop offset="85%"  stop-color="#c9a040"/>
+              <stop offset="100%" stop-color="#e0bc60"/>
+            </linearGradient>
+            <!-- Dial: very dark with warm centre -->
+            <radialGradient id="gDial" cx="42%" cy="38%" r="62%">
+              <stop offset="0%"   stop-color="#1c1610"/>
+              <stop offset="35%"  stop-color="#0e0e0e"/>
+              <stop offset="100%" stop-color="#060606"/>
+            </radialGradient>
+            <!-- Hand: polished gold -->
+            <linearGradient id="gHand" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%"   stop-color="#6a4a10"/>
+              <stop offset="28%"  stop-color="#c9a040"/>
+              <stop offset="50%"  stop-color="#f2d882"/>
+              <stop offset="72%"  stop-color="#c9a040"/>
+              <stop offset="100%" stop-color="#6a4a10"/>
+            </linearGradient>
+            <!-- Lume fill (for hand channel) -->
+            <linearGradient id="gLume" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%"   stop-color="#c9a040" stop-opacity="0"/>
+              <stop offset="50%"  stop-color="#e8c97a" stop-opacity="0.45"/>
+              <stop offset="100%" stop-color="#c9a040" stop-opacity="0"/>
+            </linearGradient>
+            <!-- Bracelet center link (polished) -->
+            <linearGradient id="gLinkC" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%"   stop-color="#2e2e2e"/>
+              <stop offset="45%"  stop-color="#3a3a3a"/>
+              <stop offset="100%" stop-color="#222"/>
+            </linearGradient>
+            <!-- Bracelet side link (brushed) -->
+            <linearGradient id="gLinkS" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%"   stop-color="#1c1c1c"/>
+              <stop offset="50%"  stop-color="#242424"/>
+              <stop offset="100%" stop-color="#1a1a1a"/>
+            </linearGradient>
+            <!-- Crown -->
+            <linearGradient id="gCrown" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%"   stop-color="#1a1a1a"/>
+              <stop offset="40%"  stop-color="#2c2c2c"/>
+              <stop offset="100%" stop-color="#181818"/>
+            </linearGradient>
+            <!-- Glass reflection -->
+            <linearGradient id="gGlass" x1="0%" y1="0%" x2="80%" y2="80%">
+              <stop offset="0%"   stop-color="white" stop-opacity="0.09"/>
+              <stop offset="100%" stop-color="white" stop-opacity="0"/>
+            </linearGradient>
+            <!-- Glow filter for applied indices -->
+            <filter id="fGlow" x="-40%" y="-40%" width="180%" height="180%">
+              <feGaussianBlur in="SourceGraphic" stdDeviation="1.2" result="b"/>
+              <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+            <!-- Soft drop shadow -->
+            <filter id="fShadow" x="-8%" y="-8%" width="116%" height="116%">
+              <feDropShadow dx="0" dy="2" stdDeviation="12" flood-color="#000" flood-opacity="0.6"/>
+            </filter>
+            <!-- Clip to dial circle -->
+            <clipPath id="cDial">
+              <circle cx="150" cy="210" r="95"/>
+            </clipPath>
+            <!-- Clip bracelet top -->
+            <clipPath id="cBracTop">
+              <rect x="109" y="0" width="82" height="104"/>
+            </clipPath>
+            <!-- Clip bracelet bottom -->
+            <clipPath id="cBracBot">
+              <rect x="109" y="316" width="82" height="106"/>
+            </clipPath>
+          </defs>
+
+          <!-- ══ PART 1: Case foundation + bracelet skeleton ══ -->
+          <g id="watch-part-1" class="watch-part">
+
+            <!-- TOP BRACELET (Oyster 3-link) -->
+            <g clip-path="url(#cBracTop)">
+              <!-- 9 rows from top, each 10px tall + 1px gap -->
+              <!-- Row 9 (topmost, narrow) -->
+              <rect x="119" y="6"  width="62" height="9" rx="1.5" fill="url(#gLinkC)" stroke="#0a0a0a" stroke-width="0.5"/>
+              <rect x="109" y="6"  width="8"  height="9" rx="1.5" fill="url(#gLinkS)" stroke="#0a0a0a" stroke-width="0.5"/>
+              <rect x="183" y="6"  width="8"  height="9" rx="1.5" fill="url(#gLinkS)" stroke="#0a0a0a" stroke-width="0.5"/>
+              <!-- Row 8 -->
+              <rect x="119" y="16" width="62" height="9" rx="1.5" fill="url(#gLinkS)" stroke="#0a0a0a" stroke-width="0.5"/>
+              <rect x="109" y="16" width="8"  height="9" rx="1.5" fill="url(#gLinkC)" stroke="#0a0a0a" stroke-width="0.5"/>
+              <rect x="183" y="16" width="8"  height="9" rx="1.5" fill="url(#gLinkC)" stroke="#0a0a0a" stroke-width="0.5"/>
+              <!-- Row 7 -->
+              <rect x="119" y="26" width="62" height="9" rx="1.5" fill="url(#gLinkC)" stroke="#0a0a0a" stroke-width="0.5"/>
+              <rect x="109" y="26" width="8"  height="9" rx="1.5" fill="url(#gLinkS)" stroke="#0a0a0a" stroke-width="0.5"/>
+              <rect x="183" y="26" width="8"  height="9" rx="1.5" fill="url(#gLinkS)" stroke="#0a0a0a" stroke-width="0.5"/>
+              <!-- Row 6 -->
+              <rect x="119" y="36" width="62" height="9" rx="1.5" fill="url(#gLinkS)" stroke="#0a0a0a" stroke-width="0.5"/>
+              <rect x="109" y="36" width="8"  height="9" rx="1.5" fill="url(#gLinkC)" stroke="#0a0a0a" stroke-width="0.5"/>
+              <rect x="183" y="36" width="8"  height="9" rx="1.5" fill="url(#gLinkC)" stroke="#0a0a0a" stroke-width="0.5"/>
+              <!-- Row 5 -->
+              <rect x="119" y="46" width="62" height="9" rx="1.5" fill="url(#gLinkC)" stroke="#0a0a0a" stroke-width="0.5"/>
+              <rect x="109" y="46" width="8"  height="9" rx="1.5" fill="url(#gLinkS)" stroke="#0a0a0a" stroke-width="0.5"/>
+              <rect x="183" y="46" width="8"  height="9" rx="1.5" fill="url(#gLinkS)" stroke="#0a0a0a" stroke-width="0.5"/>
+              <!-- Row 4 -->
+              <rect x="119" y="56" width="62" height="9" rx="1.5" fill="url(#gLinkS)" stroke="#0a0a0a" stroke-width="0.5"/>
+              <rect x="109" y="56" width="8"  height="9" rx="1.5" fill="url(#gLinkC)" stroke="#0a0a0a" stroke-width="0.5"/>
+              <rect x="183" y="56" width="8"  height="9" rx="1.5" fill="url(#gLinkC)" stroke="#0a0a0a" stroke-width="0.5"/>
+              <!-- Row 3 (widening toward lugs) -->
+              <rect x="117" y="66" width="66" height="10" rx="2" fill="url(#gLinkC)" stroke="#0a0a0a" stroke-width="0.5"/>
+              <rect x="107" y="66" width="8"  height="10" rx="2" fill="url(#gLinkS)" stroke="#0a0a0a" stroke-width="0.5"/>
+              <rect x="185" y="66" width="8"  height="10" rx="2" fill="url(#gLinkS)" stroke="#0a0a0a" stroke-width="0.5"/>
+              <!-- Row 2 (lugs wide) -->
+              <rect x="115" y="77" width="70" height="12" rx="2.5" fill="url(#gLinkC)" stroke="#0a0a0a" stroke-width="0.5"/>
+              <rect x="104" y="77" width="9"  height="12" rx="2"   fill="url(#gLinkS)" stroke="#0a0a0a" stroke-width="0.5"/>
+              <rect x="187" y="77" width="9"  height="12" rx="2"   fill="url(#gLinkS)" stroke="#0a0a0a" stroke-width="0.5"/>
+              <!-- Row 1 (lug plates, broader) -->
+              <rect x="112" y="90" width="76" height="13" rx="3" fill="url(#gCase)" stroke="#0a0a0a" stroke-width="0.5"/>
+              <rect x="100" y="90" width="10" height="13" rx="2" fill="url(#gLinkS)" stroke="#0a0a0a" stroke-width="0.5"/>
+              <rect x="190" y="90" width="10" height="13" rx="2" fill="url(#gLinkS)" stroke="#0a0a0a" stroke-width="0.5"/>
+            </g>
+
+            <!-- BOTTOM BRACELET -->
+            <g clip-path="url(#cBracBot)">
+              <rect x="112" y="317" width="76" height="13" rx="3" fill="url(#gCase)" stroke="#0a0a0a" stroke-width="0.5"/>
+              <rect x="100" y="317" width="10" height="13" rx="2" fill="url(#gLinkS)" stroke="#0a0a0a" stroke-width="0.5"/>
+              <rect x="190" y="317" width="10" height="13" rx="2" fill="url(#gLinkS)" stroke="#0a0a0a" stroke-width="0.5"/>
+
+              <rect x="115" y="331" width="70" height="12" rx="2.5" fill="url(#gLinkC)" stroke="#0a0a0a" stroke-width="0.5"/>
+              <rect x="104" y="331" width="9"  height="12" rx="2"   fill="url(#gLinkS)" stroke="#0a0a0a" stroke-width="0.5"/>
+              <rect x="187" y="331" width="9"  height="12" rx="2"   fill="url(#gLinkS)" stroke="#0a0a0a" stroke-width="0.5"/>
+
+              <rect x="117" y="344" width="66" height="10" rx="2" fill="url(#gLinkS)" stroke="#0a0a0a" stroke-width="0.5"/>
+              <rect x="107" y="344" width="8"  height="10" rx="2" fill="url(#gLinkC)" stroke="#0a0a0a" stroke-width="0.5"/>
+              <rect x="185" y="344" width="8"  height="10" rx="2" fill="url(#gLinkC)" stroke="#0a0a0a" stroke-width="0.5"/>
+
+              <rect x="119" y="355" width="62" height="9" rx="1.5" fill="url(#gLinkC)" stroke="#0a0a0a" stroke-width="0.5"/>
+              <rect x="109" y="355" width="8"  height="9" rx="1.5" fill="url(#gLinkS)" stroke="#0a0a0a" stroke-width="0.5"/>
+              <rect x="183" y="355" width="8"  height="9" rx="1.5" fill="url(#gLinkS)" stroke="#0a0a0a" stroke-width="0.5"/>
+
+              <rect x="119" y="365" width="62" height="9" rx="1.5" fill="url(#gLinkS)" stroke="#0a0a0a" stroke-width="0.5"/>
+              <rect x="109" y="365" width="8"  height="9" rx="1.5" fill="url(#gLinkC)" stroke="#0a0a0a" stroke-width="0.5"/>
+              <rect x="183" y="365" width="8"  height="9" rx="1.5" fill="url(#gLinkC)" stroke="#0a0a0a" stroke-width="0.5"/>
+
+              <rect x="119" y="375" width="62" height="9" rx="1.5" fill="url(#gLinkC)" stroke="#0a0a0a" stroke-width="0.5"/>
+              <rect x="109" y="375" width="8"  height="9" rx="1.5" fill="url(#gLinkS)" stroke="#0a0a0a" stroke-width="0.5"/>
+              <rect x="183" y="375" width="8"  height="9" rx="1.5" fill="url(#gLinkS)" stroke="#0a0a0a" stroke-width="0.5"/>
+
+              <rect x="119" y="385" width="62" height="9" rx="1.5" fill="url(#gLinkS)" stroke="#0a0a0a" stroke-width="0.5"/>
+              <rect x="109" y="385" width="8"  height="9" rx="1.5" fill="url(#gLinkC)" stroke="#0a0a0a" stroke-width="0.5"/>
+              <rect x="183" y="385" width="8"  height="9" rx="1.5" fill="url(#gLinkC)" stroke="#0a0a0a" stroke-width="0.5"/>
+
+              <rect x="119" y="395" width="62" height="9" rx="1.5" fill="url(#gLinkC)" stroke="#0a0a0a" stroke-width="0.5"/>
+              <rect x="109" y="395" width="8"  height="9" rx="1.5" fill="url(#gLinkS)" stroke="#0a0a0a" stroke-width="0.5"/>
+              <rect x="183" y="395" width="8"  height="9" rx="1.5" fill="url(#gLinkS)" stroke="#0a0a0a" stroke-width="0.5"/>
+
+              <rect x="119" y="405" width="62" height="9" rx="1.5" fill="url(#gLinkS)" stroke="#0a0a0a" stroke-width="0.5"/>
+              <rect x="109" y="405" width="8"  height="9" rx="1.5" fill="url(#gLinkC)" stroke="#0a0a0a" stroke-width="0.5"/>
+              <rect x="183" y="405" width="8"  height="9" rx="1.5" fill="url(#gLinkC)" stroke="#0a0a0a" stroke-width="0.5"/>
+            </g>
+
+            <!-- Main case body -->
+            <circle cx="150" cy="210" r="108" fill="url(#gCase)" filter="url(#fShadow)"/>
+            <!-- Case highlight ring -->
+            <circle cx="150" cy="210" r="108" fill="none" stroke="#3c3c3c" stroke-width="0.8"/>
+            <circle cx="150" cy="210" r="106" fill="none" stroke="#0a0a0a" stroke-width="0.5"/>
+          </g>
+
+          <!-- ══ PART 2: Bezel + crown ══ -->
+          <g id="watch-part-2" class="watch-part">
+            <!-- Gold bezel ring -->
+            <circle cx="150" cy="210" r="104" fill="none" stroke="url(#gBezel)" stroke-width="5"/>
+            <!-- Fluting texture (subtle dashes on bezel) -->
+            <circle cx="150" cy="210" r="104" fill="none"
+                    stroke="#f5e090" stroke-width="1.2"
+                    stroke-dasharray="1.8 5.8" opacity="0.28"/>
+            <!-- Bezel inner shadow -->
+            <circle cx="150" cy="210" r="100" fill="none" stroke="#0a0a0a" stroke-width="2"/>
+            <circle cx="150" cy="210" r="98"  fill="none" stroke="#1e1e1e" stroke-width="0.6"/>
+
+            <!-- Crown at 3 o'clock (x≈260) -->
+            <rect x="258" y="201" width="20" height="18" rx="5.5" fill="url(#gCrown)" stroke="#333" stroke-width="0.7"/>
+            <line x1="258" y1="204.5" x2="278" y2="204.5" stroke="#3a3a3a" stroke-width="0.7"/>
+            <line x1="258" y1="208"   x2="278" y2="208"   stroke="#3a3a3a" stroke-width="0.7"/>
+            <line x1="258" y1="212"   x2="278" y2="212"   stroke="#3a3a3a" stroke-width="0.7"/>
+            <line x1="258" y1="215.5" x2="278" y2="215.5" stroke="#3a3a3a" stroke-width="0.7"/>
+          </g>
+
+          <!-- ══ PART 3: Dial + markers ══ -->
+          <g id="watch-part-3" class="watch-part">
+            <!-- Dial face -->
+            <circle cx="150" cy="210" r="97" fill="url(#gDial)"/>
+
+            <!-- Sunburst: 60 thin radial lines clipped to dial -->
+            <g clip-path="url(#cDial)" opacity="0.055">
+              <line x1="150" y1="113" x2="150" y2="307" stroke="#c9a040" stroke-width="0.5" transform="rotate(0   150 210)"/>
+              <line x1="150" y1="113" x2="150" y2="307" stroke="#c9a040" stroke-width="0.5" transform="rotate(6   150 210)"/>
+              <line x1="150" y1="113" x2="150" y2="307" stroke="#c9a040" stroke-width="0.5" transform="rotate(12  150 210)"/>
+              <line x1="150" y1="113" x2="150" y2="307" stroke="#c9a040" stroke-width="0.5" transform="rotate(18  150 210)"/>
+              <line x1="150" y1="113" x2="150" y2="307" stroke="#c9a040" stroke-width="0.5" transform="rotate(24  150 210)"/>
+              <line x1="150" y1="113" x2="150" y2="307" stroke="#c9a040" stroke-width="0.5" transform="rotate(30  150 210)"/>
+              <line x1="150" y1="113" x2="150" y2="307" stroke="#c9a040" stroke-width="0.5" transform="rotate(36  150 210)"/>
+              <line x1="150" y1="113" x2="150" y2="307" stroke="#c9a040" stroke-width="0.5" transform="rotate(42  150 210)"/>
+              <line x1="150" y1="113" x2="150" y2="307" stroke="#c9a040" stroke-width="0.5" transform="rotate(48  150 210)"/>
+              <line x1="150" y1="113" x2="150" y2="307" stroke="#c9a040" stroke-width="0.5" transform="rotate(54  150 210)"/>
+              <line x1="150" y1="113" x2="150" y2="307" stroke="#c9a040" stroke-width="0.5" transform="rotate(60  150 210)"/>
+              <line x1="150" y1="113" x2="150" y2="307" stroke="#c9a040" stroke-width="0.5" transform="rotate(66  150 210)"/>
+              <line x1="150" y1="113" x2="150" y2="307" stroke="#c9a040" stroke-width="0.5" transform="rotate(72  150 210)"/>
+              <line x1="150" y1="113" x2="150" y2="307" stroke="#c9a040" stroke-width="0.5" transform="rotate(78  150 210)"/>
+              <line x1="150" y1="113" x2="150" y2="307" stroke="#c9a040" stroke-width="0.5" transform="rotate(84  150 210)"/>
+              <line x1="150" y1="113" x2="150" y2="307" stroke="#c9a040" stroke-width="0.5" transform="rotate(90  150 210)"/>
+              <line x1="150" y1="113" x2="150" y2="307" stroke="#c9a040" stroke-width="0.5" transform="rotate(96  150 210)"/>
+              <line x1="150" y1="113" x2="150" y2="307" stroke="#c9a040" stroke-width="0.5" transform="rotate(102 150 210)"/>
+              <line x1="150" y1="113" x2="150" y2="307" stroke="#c9a040" stroke-width="0.5" transform="rotate(108 150 210)"/>
+              <line x1="150" y1="113" x2="150" y2="307" stroke="#c9a040" stroke-width="0.5" transform="rotate(114 150 210)"/>
+              <line x1="150" y1="113" x2="150" y2="307" stroke="#c9a040" stroke-width="0.5" transform="rotate(120 150 210)"/>
+              <line x1="150" y1="113" x2="150" y2="307" stroke="#c9a040" stroke-width="0.5" transform="rotate(126 150 210)"/>
+              <line x1="150" y1="113" x2="150" y2="307" stroke="#c9a040" stroke-width="0.5" transform="rotate(132 150 210)"/>
+              <line x1="150" y1="113" x2="150" y2="307" stroke="#c9a040" stroke-width="0.5" transform="rotate(138 150 210)"/>
+              <line x1="150" y1="113" x2="150" y2="307" stroke="#c9a040" stroke-width="0.5" transform="rotate(144 150 210)"/>
+              <line x1="150" y1="113" x2="150" y2="307" stroke="#c9a040" stroke-width="0.5" transform="rotate(150 150 210)"/>
+              <line x1="150" y1="113" x2="150" y2="307" stroke="#c9a040" stroke-width="0.5" transform="rotate(156 150 210)"/>
+              <line x1="150" y1="113" x2="150" y2="307" stroke="#c9a040" stroke-width="0.5" transform="rotate(162 150 210)"/>
+              <line x1="150" y1="113" x2="150" y2="307" stroke="#c9a040" stroke-width="0.5" transform="rotate(168 150 210)"/>
+              <line x1="150" y1="113" x2="150" y2="307" stroke="#c9a040" stroke-width="0.5" transform="rotate(174 150 210)"/>
+            </g>
+
+            <!-- Minute track ring -->
+            <circle cx="150" cy="210" r="89" fill="none" stroke="#1a1a1a" stroke-width="0.5"/>
+
+            <!-- ── HOUR MARKERS (12 applied indices, gold) ── -->
+            <!-- 12 -->
+            <rect x="146.5" y="121" width="7" height="18" rx="1.5" fill="url(#gHand)" filter="url(#fGlow)"/>
+            <!-- 3 -->
+            <rect x="221"   y="206.5" width="18" height="7" rx="1.5" fill="url(#gHand)" filter="url(#fGlow)"/>
+            <!-- 6 -->
+            <rect x="146.5" y="281" width="7" height="18" rx="1.5" fill="url(#gHand)" filter="url(#fGlow)"/>
+            <!-- 9 -->
+            <rect x="61"    y="206.5" width="18" height="7" rx="1.5" fill="url(#gHand)" filter="url(#fGlow)"/>
+            <!-- 1 (rotate 30° around center) -->
+            <rect x="146.5" y="121" width="5" height="13" rx="1" fill="#8a8a8a" transform="rotate(30 150 210)"/>
+            <!-- 2 -->
+            <rect x="146.5" y="121" width="5" height="13" rx="1" fill="#8a8a8a" transform="rotate(60 150 210)"/>
+            <!-- 4 -->
+            <rect x="146.5" y="121" width="5" height="13" rx="1" fill="#8a8a8a" transform="rotate(120 150 210)"/>
+            <!-- 5 -->
+            <rect x="146.5" y="121" width="5" height="13" rx="1" fill="#8a8a8a" transform="rotate(150 150 210)"/>
+            <!-- 7 -->
+            <rect x="146.5" y="121" width="5" height="13" rx="1" fill="#8a8a8a" transform="rotate(210 150 210)"/>
+            <!-- 8 -->
+            <rect x="146.5" y="121" width="5" height="13" rx="1" fill="#8a8a8a" transform="rotate(240 150 210)"/>
+            <!-- 10 -->
+            <rect x="146.5" y="121" width="5" height="13" rx="1" fill="#8a8a8a" transform="rotate(300 150 210)"/>
+            <!-- 11 -->
+            <rect x="146.5" y="121" width="5" height="13" rx="1" fill="#8a8a8a" transform="rotate(330 150 210)"/>
+
+            <!-- Minute dots (non-hour positions, at r≈90) -->
+            <g opacity="0.35" fill="#555">
+              <circle cx="150" cy="120" r="1.4" transform="rotate(6   150 210)"/>
+              <circle cx="150" cy="120" r="1.4" transform="rotate(12  150 210)"/>
+              <circle cx="150" cy="120" r="1.4" transform="rotate(18  150 210)"/>
+              <circle cx="150" cy="120" r="1.4" transform="rotate(24  150 210)"/>
+              <circle cx="150" cy="120" r="1.4" transform="rotate(36  150 210)"/>
+              <circle cx="150" cy="120" r="1.4" transform="rotate(42  150 210)"/>
+              <circle cx="150" cy="120" r="1.4" transform="rotate(48  150 210)"/>
+              <circle cx="150" cy="120" r="1.4" transform="rotate(54  150 210)"/>
+              <circle cx="150" cy="120" r="1.4" transform="rotate(66  150 210)"/>
+              <circle cx="150" cy="120" r="1.4" transform="rotate(72  150 210)"/>
+              <circle cx="150" cy="120" r="1.4" transform="rotate(78  150 210)"/>
+              <circle cx="150" cy="120" r="1.4" transform="rotate(84  150 210)"/>
+              <circle cx="150" cy="120" r="1.4" transform="rotate(96  150 210)"/>
+              <circle cx="150" cy="120" r="1.4" transform="rotate(102 150 210)"/>
+              <circle cx="150" cy="120" r="1.4" transform="rotate(108 150 210)"/>
+              <circle cx="150" cy="120" r="1.4" transform="rotate(114 150 210)"/>
+              <circle cx="150" cy="120" r="1.4" transform="rotate(126 150 210)"/>
+              <circle cx="150" cy="120" r="1.4" transform="rotate(132 150 210)"/>
+              <circle cx="150" cy="120" r="1.4" transform="rotate(138 150 210)"/>
+              <circle cx="150" cy="120" r="1.4" transform="rotate(144 150 210)"/>
+              <circle cx="150" cy="120" r="1.4" transform="rotate(156 150 210)"/>
+              <circle cx="150" cy="120" r="1.4" transform="rotate(162 150 210)"/>
+              <circle cx="150" cy="120" r="1.4" transform="rotate(168 150 210)"/>
+              <circle cx="150" cy="120" r="1.4" transform="rotate(174 150 210)"/>
+              <circle cx="150" cy="120" r="1.4" transform="rotate(186 150 210)"/>
+              <circle cx="150" cy="120" r="1.4" transform="rotate(192 150 210)"/>
+              <circle cx="150" cy="120" r="1.4" transform="rotate(198 150 210)"/>
+              <circle cx="150" cy="120" r="1.4" transform="rotate(204 150 210)"/>
+              <circle cx="150" cy="120" r="1.4" transform="rotate(216 150 210)"/>
+              <circle cx="150" cy="120" r="1.4" transform="rotate(222 150 210)"/>
+              <circle cx="150" cy="120" r="1.4" transform="rotate(228 150 210)"/>
+              <circle cx="150" cy="120" r="1.4" transform="rotate(234 150 210)"/>
+              <circle cx="150" cy="120" r="1.4" transform="rotate(246 150 210)"/>
+              <circle cx="150" cy="120" r="1.4" transform="rotate(252 150 210)"/>
+              <circle cx="150" cy="120" r="1.4" transform="rotate(258 150 210)"/>
+              <circle cx="150" cy="120" r="1.4" transform="rotate(264 150 210)"/>
+              <circle cx="150" cy="120" r="1.4" transform="rotate(276 150 210)"/>
+              <circle cx="150" cy="120" r="1.4" transform="rotate(282 150 210)"/>
+              <circle cx="150" cy="120" r="1.4" transform="rotate(288 150 210)"/>
+              <circle cx="150" cy="120" r="1.4" transform="rotate(294 150 210)"/>
+              <circle cx="150" cy="120" r="1.4" transform="rotate(306 150 210)"/>
+              <circle cx="150" cy="120" r="1.4" transform="rotate(312 150 210)"/>
+              <circle cx="150" cy="120" r="1.4" transform="rotate(318 150 210)"/>
+              <circle cx="150" cy="120" r="1.4" transform="rotate(324 150 210)"/>
+              <circle cx="150" cy="120" r="1.4" transform="rotate(336 150 210)"/>
+              <circle cx="150" cy="120" r="1.4" transform="rotate(342 150 210)"/>
+              <circle cx="150" cy="120" r="1.4" transform="rotate(348 150 210)"/>
+              <circle cx="150" cy="120" r="1.4" transform="rotate(354 150 210)"/>
+            </g>
+
+            <!-- Date window (at ~4 o'clock area, between 3 and center) -->
+            <rect x="193" y="202" width="22" height="14" rx="2" fill="#111" stroke="#2e2e2e" stroke-width="0.6"/>
+            <text x="204" y="213" text-anchor="middle"
+                  font-family="'Inter',sans-serif" font-weight="400" font-size="7.5" fill="#ddd">08</text>
+
+            <!-- Brand text -->
+            <text x="150" y="174" text-anchor="middle"
+                  font-family="'Cormorant Garamond',serif" font-weight="300"
+                  font-size="11" letter-spacing="5.5" fill="#c9a040" opacity="0.92">GHILAS</text>
+            <text x="150" y="186" text-anchor="middle"
+                  font-family="'Inter',sans-serif" font-weight="300"
+                  font-size="5.5" letter-spacing="2.5" fill="#4a4a4a">WEB ARTISAN</text>
+
+            <!-- Small seconds sub-dial at 6 o'clock -->
+            <circle cx="150" cy="258" r="18" fill="none" stroke="#181818" stroke-width="0.8"/>
+            <circle cx="150" cy="258" r="16" fill="none" stroke="#141414" stroke-width="0.5"/>
+            <g opacity="0.45" stroke="#3a3a3a" stroke-width="0.7">
+              <line x1="150" y1="240" x2="150" y2="243" transform="rotate(0   150 258)"/>
+              <line x1="150" y1="240" x2="150" y2="242" transform="rotate(30  150 258)"/>
+              <line x1="150" y1="240" x2="150" y2="243" transform="rotate(60  150 258)"/>
+              <line x1="150" y1="240" x2="150" y2="242" transform="rotate(90  150 258)"/>
+              <line x1="150" y1="240" x2="150" y2="243" transform="rotate(120 150 258)"/>
+              <line x1="150" y1="240" x2="150" y2="242" transform="rotate(150 150 258)"/>
+              <line x1="150" y1="240" x2="150" y2="243" transform="rotate(180 150 258)"/>
+              <line x1="150" y1="240" x2="150" y2="242" transform="rotate(210 150 258)"/>
+              <line x1="150" y1="240" x2="150" y2="243" transform="rotate(240 150 258)"/>
+              <line x1="150" y1="240" x2="150" y2="242" transform="rotate(270 150 258)"/>
+              <line x1="150" y1="240" x2="150" y2="243" transform="rotate(300 150 258)"/>
+              <line x1="150" y1="240" x2="150" y2="242" transform="rotate(330 150 258)"/>
+            </g>
+            <text x="150" y="268" text-anchor="middle"
+                  font-family="'Inter',sans-serif" font-weight="300"
+                  font-size="4" letter-spacing="1" fill="#2e2e2e">SECONDES</text>
+          </g>
+
+          <!-- ══ PART 4: Dauphine hands ══ -->
+          <g id="watch-part-4" class="watch-part">
+            <!--
+              Hands drawn with pivot at (0,0), mounted in translate(150,210) group.
+              Initial rotation applied via transform attribute.
+              Animation added to inner <g> using animateTransform begin="indefinite".
+            -->
+            <!-- HOUR HAND — pointing to ~10 o'clock (rotate -60°) -->
+            <g transform="translate(150,210)">
+              <g transform="rotate(-60)">
+                <!-- Dauphine shape: cubic spline, pointed at -75px -->
+                <path d="M-3.5,0 C-4,-15,-4.5,-30,-3,-55 L0,-75 L3,-55 C4.5,-30,4,-15,3.5,0 Z"
+                      fill="url(#gHand)"/>
+                <!-- Lume channel -->
+                <path d="M-1.5,0 C-1.8,-15,-2,-30,-1.2,-55 L0,-70 L1.2,-55 C2,-30,1.8,-15,1.5,0 Z"
+                      fill="url(#gLume)" opacity="0.5"/>
+                <!-- Tail -->
+                <rect x="-2" y="0" width="4" height="12" rx="1.5" fill="#8a6a20"/>
+              </g>
+            </g>
+
+            <!-- MINUTE HAND — pointing to ~2 o'clock (rotate +60°) -->
+            <g transform="translate(150,210)">
+              <g id="watch-minute-hand" transform="rotate(60)">
+                <path d="M-3,0 C-3.5,-18,-3.5,-36,-2.2,-65 L0,-88 L2.2,-65 C3.5,-36,3.5,-18,3,0 Z"
+                      fill="url(#gHand)"/>
+                <path d="M-1.2,0 C-1.5,-18,-1.5,-36,-0.8,-65 L0,-83 L0.8,-65 C1.5,-36,1.5,-18,1.2,0 Z"
+                      fill="url(#gLume)" opacity="0.5"/>
+                <rect x="-2" y="0" width="4" height="15" rx="1.5" fill="#8a6a20"/>
+                <animateTransform id="minAnim" attributeName="transform" type="rotate"
+                  from="60" to="420" dur="3600s" repeatCount="indefinite" begin="indefinite"/>
+              </g>
+            </g>
+
+            <!-- SECOND HAND — thin with lollipop counterweight -->
+            <g transform="translate(150,210)">
+              <g id="watch-second-hand" transform="rotate(135)">
+                <rect x="-0.7" y="-80" width="1.4" height="90" rx="0.7" fill="#c9a040"/>
+                <!-- Counterbalance -->
+                <rect x="-2.2" y="10" width="4.4" height="18" rx="2.2" fill="#c9a040"/>
+                <circle cx="0" cy="22" r="4" fill="none" stroke="#c9a040" stroke-width="1.1"/>
+                <animateTransform id="secAnim" attributeName="transform" type="rotate"
+                  from="135" to="495" dur="60s" repeatCount="indefinite" begin="indefinite"/>
+              </g>
+            </g>
+
+            <!-- Center cap -->
+            <circle cx="150" cy="210" r="5.5" fill="#c9a040"/>
+            <circle cx="150" cy="210" r="3.2" fill="#111"/>
+            <circle cx="150" cy="210" r="1.6" fill="#c9a040"/>
+          </g>
+
+          <!-- ══ PART 5: Bracelet detail (lug join + clasp) ══ -->
+          <g id="watch-part-5" class="watch-part">
+            <!-- Top lug joint strip -->
+            <rect x="116" y="100" width="68" height="4" rx="1" fill="#252525" stroke="#111" stroke-width="0.5"/>
+            <!-- Bottom lug joint strip -->
+            <rect x="116" y="316" width="68" height="4" rx="1" fill="#252525" stroke="#111" stroke-width="0.5"/>
+            <!-- Clasp plate (bottom end of bracelet) -->
+            <rect x="124" y="403" width="52" height="12" rx="3.5" fill="#1c1c1c" stroke="#2a2a2a" stroke-width="0.8"/>
+            <rect x="132" y="406" width="36" height="6" rx="2" fill="#242424"/>
+            <rect x="148.5" y="403" width="3" height="12" rx="1" fill="#111"/>
+          </g>
+
+          <!-- ══ PART 6: Crystal + polish + lume glow ══ -->
+          <g id="watch-part-6" class="watch-part">
+            <!-- Sapphire crystal dome highlight (top-left arc) -->
+            <path d="M 88 168 Q 132 140 176 156" stroke="white" stroke-width="2"
+                  stroke-linecap="round" fill="none" opacity="0.09"/>
+            <path d="M 94 160 Q 134 135 172 150" stroke="white" stroke-width="1"
+                  stroke-linecap="round" fill="none" opacity="0.05"/>
+            <!-- Subtle crystal sheen ellipse -->
+            <ellipse cx="126" cy="180" rx="24" ry="9" fill="url(#gGlass)"
+                     transform="rotate(-28 126 180)"/>
+
+            <!-- Lume glow halos on cardinal hour markers -->
+            <circle cx="150" cy="130" r="8" fill="#c9a040" opacity="0.1" filter="url(#fGlow)"/>
+            <circle cx="230" cy="210" r="8" fill="#c9a040" opacity="0.08" filter="url(#fGlow)"/>
+            <circle cx="150" cy="290" r="8" fill="#c9a040" opacity="0.08" filter="url(#fGlow)"/>
+            <circle cx="70"  cy="210" r="8" fill="#c9a040" opacity="0.08" filter="url(#fGlow)"/>
+
+            <!-- Polished outer case edge -->
+            <circle cx="150" cy="210" r="108" fill="none" stroke="#484848" stroke-width="0.6" opacity="0.4"/>
+
+            <!-- Dashed gold accent ring (inner bezel) -->
+            <circle cx="150" cy="210" r="99" fill="none" stroke="#c9a040"
+                    stroke-width="0.5" stroke-dasharray="2 8" opacity="0.35"/>
+          </g>
+        </svg><!-- /watch-svg -->
+      </div>
+    </div><!-- /watch-col -->
+
+    <!-- STEPS COL — second in HTML (left on desktop via order:1, below on mobile) -->
+    <div class="steps-col">
+      <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="6">
+        <div class="progress-segment" data-seg="1"></div>
+        <div class="progress-segment" data-seg="2"></div>
+        <div class="progress-segment" data-seg="3"></div>
+        <div class="progress-segment" data-seg="4"></div>
+        <div class="progress-segment" data-seg="5"></div>
+        <div class="progress-segment" data-seg="6"></div>
+      </div>
+
+      <div class="step-block" data-step="1">
+        <div class="step-text">
+          <span class="step-number-bg" aria-hidden="true">01</span>
+          <div class="step-inner">
+            <p class="step-label" data-od-id="s1-label">01 — Fondations</p>
+            <h2 class="step-title" data-od-id="s1-title">Fondations solides</h2>
+            <p class="step-desc" data-od-id="s1-desc">Chaque site repose sur une architecture pensée pour durer. Code propre, structure robuste, bases indestructibles.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="step-block" data-step="2">
+        <div class="step-text">
+          <span class="step-number-bg" aria-hidden="true">02</span>
+          <div class="step-inner">
+            <p class="step-label" data-od-id="s2-label">02 — Structure</p>
+            <h2 class="step-title" data-od-id="s2-title">Design sur-mesure</h2>
+            <p class="step-desc" data-od-id="s2-desc">L'enveloppe reflète l'identité. Chaque forme est une décision, chaque couleur un choix délibéré.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="step-block" data-step="3">
+        <div class="step-text">
+          <span class="step-number-bg" aria-hidden="true">03</span>
+          <div class="step-inner">
+            <p class="step-label" data-od-id="s3-label">03 — Lisibilité</p>
+            <h2 class="step-title" data-od-id="s3-title">Clarté &amp; précision</h2>
+            <p class="step-desc" data-od-id="s3-desc">Une interface claire parle avant même d'être lue. Typographie, espacement, hiérarchie — tout est orchestré.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="step-block" data-step="4">
+        <div class="step-text">
+          <span class="step-number-bg" aria-hidden="true">04</span>
+          <div class="step-inner">
+            <p class="step-label" data-od-id="s4-label">04 — Dynamisme</p>
+            <h2 class="step-title" data-od-id="s4-title">Chaque détail compte</h2>
+            <p class="step-desc" data-od-id="s4-desc">Le mouvement est invisible quand il est parfait. Animations fluides, micro-interactions précises, sans ostentation.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="step-block" data-step="5">
+        <div class="step-text">
+          <span class="step-number-bg" aria-hidden="true">05</span>
+          <div class="step-inner">
+            <p class="step-label" data-od-id="s5-label">05 — Finitions</p>
+            <h2 class="step-title" data-od-id="s5-title">Finitions soignées</h2>
+            <p class="step-desc" data-od-id="s5-desc">Ce qui retient l'attention, c'est ce qu'on remarque en dernier. La qualité se mesure dans les détails invisibles.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="step-block" data-step="6">
+        <div class="step-text">
+          <span class="step-number-bg" aria-hidden="true">06</span>
+          <div class="step-inner">
+            <p class="step-label" data-od-id="s6-label">06 — Excellence</p>
+            <h2 class="step-title" data-od-id="s6-title">L'œuvre accomplie</h2>
+            <p class="step-desc" data-od-id="s6-desc">Quand tout s'assemble, on ne voit plus les composants — on ressent l'expérience. C'est ça, l'artisanat numérique.</p>
+          </div>
+        </div>
+      </div>
+    </div><!-- /steps-col -->
+
+  </div><!-- /assembly-grid -->
+</section>
+
+<!-- ═══ Reveal ═══ -->
+<section id="reveal">
+  <div class="reveal-glow" aria-hidden="true"></div>
+  <div class="reveal-content">
+    <h2 class="reveal-signature" id="reveal-sig" data-od-id="reveal-name">Ghilas</h2>
+    <p class="reveal-sub" id="reveal-sub" data-od-id="reveal-sub">Web Artisan · Depuis 2019</p>
+    <div class="reveal-cta" id="reveal-cta">
+      <a href="#contact" class="btn-primary" data-od-id="reveal-btn">Parlons de votre projet &rarr;</a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ Contact ═══ -->
+<section id="contact" aria-labelledby="contact-heading">
+  <p class="section-eyebrow" data-od-id="contact-eyebrow">Votre projet</p>
+  <h2 class="section-title" id="contact-heading" data-od-id="contact-title">
+    Parlons<br /><em style="font-style:italic;color:var(--color-gold-light)">ensemble</em>
+  </h2>
+  <form id="contact-form" novalidate>
+    <div class="form-group">
+      <input type="text" id="f-name" name="name" placeholder="Votre nom" autocomplete="name" data-od-id="form-name" required/>
+      <label for="f-name">Votre nom</label>
+    </div>
+    <div class="form-group">
+      <input type="email" id="f-email" name="email" placeholder="Votre email" autocomplete="email" data-od-id="form-email" required/>
+      <label for="f-email">Votre email</label>
+    </div>
+    <div class="form-group">
+      <textarea id="f-msg" name="message" placeholder="Votre projet" data-od-id="form-msg" required></textarea>
+      <label for="f-msg">Votre projet</label>
+    </div>
+    <button type="submit" class="btn-primary" data-od-id="form-submit" aria-label="Envoyer le message">Envoyer &rarr;</button>
+    <p class="form-success" id="form-ok" role="alert">Message reçu — je vous réponds dans les 24h.</p>
+  </form>
+</section>
+
+</main>
+
+<!-- ═══ Footer ═══ -->
+<footer>
+  <span class="footer-logo" data-od-id="foot-logo">Ghilas</span>
+  <a href="mailto:contact@ghilas.dev" class="footer-email" data-od-id="foot-email">contact@ghilas.dev</a>
+  <p class="footer-copy" data-od-id="foot-copy">&copy; 2026 Ghilas · Tous droits réservés</p>
+</footer>
+
+<script>
+  // ── Nav frosted ──
+  const nav = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 80);
+  }, { passive: true });
+
+  // ── Watch assembly ──
+  const stepBlocks  = document.querySelectorAll('.step-block');
+  const segments    = document.querySelectorAll('.progress-segment');
+  const progressBar = document.querySelector('.progress-bar');
+  const watchGlow   = document.getElementById('watch-glow');
+  let currentStep = 0, burstTimer;
+
+  function revealStep(n) {
+    if (n === currentStep) return;
+    currentStep = n;
+    // Reveal parts
+    for (let i = 1; i <= 6; i++) {
+      document.getElementById('watch-part-' + i)
+              .classList.toggle('revealed', i <= n);
+    }
+    // Fade-out previous step text, then fade-in new one (200ms offset per DESIGN.md)
+    stepBlocks.forEach(b => {
+      if (+b.dataset.step !== n) b.querySelector('.step-inner').classList.remove('revealed');
+    });
+    setTimeout(() => {
+      stepBlocks.forEach(b => {
+        if (+b.dataset.step === n) b.querySelector('.step-inner').classList.add('revealed');
+      });
+    }, 200);
+    // Progress
+    segments.forEach((s, i) => s.classList.toggle('active', i < n));
+    progressBar.setAttribute('aria-valuenow', n);
+    // Halo burst
+    clearTimeout(burstTimer);
+    watchGlow.classList.remove('burst');
+    void watchGlow.offsetWidth;
+    watchGlow.classList.add('burst');
+    burstTimer = setTimeout(() => watchGlow.classList.remove('burst'), 600);
+    // On step 6: start hand animations
+    if (n >= 6 && !window._handsStarted) {
+      window._handsStarted = true;
+      const prefersReduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (!prefersReduced) {
+        document.getElementById('secAnim').beginElement();
+        document.getElementById('minAnim').beginElement();
+      }
+    }
+  }
+
+  // Responsive threshold: mobile viewport is narrower, lower threshold needed
+  const isMobile = () => window.innerWidth < 1024;
+  const makeObserver = () => new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) revealStep(+e.target.dataset.step); });
+  }, {
+    threshold:   isMobile() ? 0.2 : 0.4,
+    rootMargin: isMobile() ? '-50px 0px -5% 0px' : '-5% 0px -5% 0px'
+  });
+
+  let obs = makeObserver();
+  stepBlocks.forEach(b => obs.observe(b));
+
+  // Re-create observer on resize breakpoint cross
+  let wasMobile = isMobile();
+  window.addEventListener('resize', () => {
+    const nowMobile = isMobile();
+    if (nowMobile !== wasMobile) {
+      wasMobile = nowMobile;
+      obs.disconnect();
+      obs = makeObserver();
+      stepBlocks.forEach(b => obs.observe(b));
+    }
+  });
+
+  // Reveal part 1 as soon as #assembly enters viewport (watch not blank on arrival)
+  new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting && currentStep === 0) revealStep(1); });
+  }, { threshold: 0.1 }).observe(document.getElementById('assembly'));
+
+  // ── Reveal section ──
+  new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        document.getElementById('reveal-sig').classList.add('revealed');
+        document.getElementById('reveal-sub').classList.add('revealed');
+        document.getElementById('reveal-cta').classList.add('revealed');
+      }
+    });
+  }, { threshold: 0.25 }).observe(document.getElementById('reveal'));
+
+  // ── Contact form ──
+  document.getElementById('contact-form').addEventListener('submit', e => {
+    e.preventDefault();
+    const fd = new FormData(e.target);
+    const ok = document.getElementById('form-ok');
+    if (!fd.get('name')?.trim() || !fd.get('email')?.trim() || !fd.get('message')?.trim()) {
+      ok.textContent = 'Veuillez remplir tous les champs.';
+      ok.style.color = 'var(--color-gold)';
+      ok.style.display = 'block';
+      return;
+    }
+    ok.textContent = 'Message reçu — je vous réponds dans les 24h.';
+    ok.style.color = 'var(--color-gold)';
+    ok.style.display = 'block';
+    e.target.reset();
+    setTimeout(() => { ok.style.display = 'none'; }, 6000);
+  });
+
+  // ── Smooth anchor ──
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      const t = document.querySelector(a.getAttribute('href'));
+      if (t) { e.preventDefault(); t.scrollIntoView({ behavior: 'smooth' }); }
+    });
+  });
+</script>
+</body>
+</html>
